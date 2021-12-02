@@ -940,7 +940,7 @@ string ASTJsonConverter::location(VariableDeclaration::Location _location)
 {
 	switch (_location)
 	{
-	case VariableDeclaration::Location::Unspecified:
+	case VariableDeclaration::Location::Unspecified://VariableDeclaration的位置
 		return "default";
 	case VariableDeclaration::Location::Storage:
 		return "storage";

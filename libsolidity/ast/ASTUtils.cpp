@@ -32,7 +32,7 @@ bool isConstantVariableRecursive(VariableDeclaration const& _varDecl)
 	{
 		solAssert(_depth < 256, "Recursion depth limit reached");
 		if (!_variable.value())
-			// This should result in an error later on.
+			// This should result in an error later on.//这将导致一个错误。
 			return;
 
 		if (auto referencedVarDecl = dynamic_cast<VariableDeclaration const*>(

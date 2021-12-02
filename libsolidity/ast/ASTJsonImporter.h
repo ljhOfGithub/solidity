@@ -35,7 +35,7 @@ namespace solidity::frontend
 {
 
 /**
- * Component that imports an AST from json format to the internal format
+ * Component that imports an AST from json format to the internal format从json格式导入AST到内部格式的组件
  */
 class ASTJsonImporter
 {
@@ -53,17 +53,17 @@ private:
 
 	// =========== general creation functions ==============
 
-	/// Sets the source location and nodeID
-	/// @returns the ASTNode Object class of the respective JSON node,
+	/// Sets the source location and nodeID///设置源位置和nodeID
+	/// @returns the ASTNode Object class of the respective JSON node,对应的JSON节点的ASTNode对象类，
 	template <typename T, typename... Args>
 	ASTPointer<T> createASTNode(Json::Value const& _node, Args&&... _args);
-	/// @returns the sourceLocation-object created from the string in the JSON node
+	/// @returns the sourceLocation-object created from the string in the JSON node从JSON节点中的字符串创建的源Location对象
 	langutil::SourceLocation const createSourceLocation(Json::Value const& _node);
-	/// Creates an ASTNode for a given JSON-ast of unknown type
-	/// @returns Pointer to a new created ASTNode
+	/// Creates an ASTNode for a given JSON-ast of unknown type///为一个未知类型的JSON-ast创建一个ASTNode
+	/// @returns Pointer to a new created ASTNode指向新创建的ASTNode的指针
 	ASTPointer<ASTNode> convertJsonToASTNode(Json::Value const& _ast);
-	/// @returns a pointer to the more specific subclass of ASTNode
-	/// as indicated by the nodeType field of the json
+	/// @returns a pointer to the more specific subclass of ASTNode一个指向ASTNode更特定子类的指针
+	/// as indicated by the nodeType field of the json如json的nodeType字段所示
 	template<class T>
 	ASTPointer<T> convertJsonToASTNode(Json::Value const& _node);
 

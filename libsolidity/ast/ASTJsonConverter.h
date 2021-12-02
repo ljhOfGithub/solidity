@@ -50,7 +50,7 @@ namespace solidity::frontend
 class ASTJsonConverter: public ASTConstVisitor
 {
 public:
-	/// Create a converter to JSON for the given abstract syntax tree.
+	/// Create a converter to JSON for the given abstract syntax tree.///为给定的抽象语法树创建一个JSON转换器。
 	/// @a _stackState state of the compiler stack to avoid outputting incomplete data
 	/// @a _sourceIndices is used to abbreviate source names in source locations.
 	explicit ASTJsonConverter(
@@ -141,6 +141,7 @@ private:
 		std::vector<std::pair<std::string, Json::Value>>&& _attributes
 	);
 	/// Maps source location to an index, if source is valid and a mapping does exist, otherwise returns std::nullopt.
+	///映射源位置到一个索引，如果源有效且映射存在，否则返回std::nullopt。
 	std::optional<size_t> sourceIndexFromLocation(langutil::SourceLocation const& _location) const;
 	std::string sourceLocationToString(langutil::SourceLocation const& _location) const;
 	static std::string namePathToString(std::vector<ASTString> const& _namePath);

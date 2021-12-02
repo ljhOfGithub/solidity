@@ -169,6 +169,8 @@ public:
 protected:
 	/// Generic function called by default for each node, to be overridden by derived classes
 	/// if behaviour unspecific to a node type is desired.
+	///为每个节点默认调用泛型函数，由派生类重写
+	///如果需要非特定于节点类型的行为。
 	virtual bool visitNode(ASTNode&) { return true; }
 	/// Generic function called by default for each node, to be overridden by derived classes
 	/// if behaviour unspecific to a node type is desired.
