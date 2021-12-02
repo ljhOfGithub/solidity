@@ -102,6 +102,7 @@ public:
 	static std::vector<T const*> filteredNodes(std::vector<ASTPointer<ASTNode>> const& _nodes);
 
 	/// Extracts the referenced declaration from all nodes whose annotations support
+	// 从其注释支持的所有节点中提取引用的声明
 	/// `referencedDeclaration`.
 	static Declaration const* referencedDeclaration(Expression const& _expression);
 	/// Performs potential super or virtual lookup for a function call based on the most derived contract.
