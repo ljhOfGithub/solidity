@@ -105,7 +105,7 @@ public:
 	// 从其注释支持的所有节点中提取引用的声明
 	/// `referencedDeclaration`.
 	static Declaration const* referencedDeclaration(Expression const& _expression);
-	/// Performs potential super or virtual lookup for a function call based on the most derived contract.
+	/// Performs potential super or virtual lookup for a function call based on the most derived contract.///根据最派生的契约对函数调用执行潜在的超查找或虚拟查找。
 	static FunctionDefinition const* resolveFunctionCall(FunctionCall const& _functionCall, ContractDefinition const* _mostDerivedContract);
 
 	/// Returns the source code location of this node.
@@ -134,6 +134,7 @@ protected:
 
 private:
 	/// Annotation - is specialised in derived classes, is created upon request (because of polymorphism).
+	// 注释-专门在派生类中，根据请求创建(因为多态性)。
 	mutable std::unique_ptr<ASTAnnotation> m_annotation;
 	SourceLocation m_location;
 };
@@ -149,7 +150,7 @@ std::vector<T const*> ASTNode::filteredNodes(std::vector<ASTPointer<ASTNode>> co
 }
 
 /**
- * Abstract marker class that specifies that this AST node opens a scope.
+ * Abstract marker class that specifies that this AST node opens a scope.抽象标记类，指定此AST节点打开一个范围。
  */
 class ScopeOpener
 {
@@ -158,7 +159,7 @@ public:
 };
 
 /**
- * Source unit containing import directives and contract definitions.
+ * Source unit containing import directives and contract definitions.包含导入指令和契约定义的源单元。
  */
 class SourceUnit: public ASTNode, public ScopeOpener
 {
@@ -187,7 +188,7 @@ private:
 };
 
 /**
- * Abstract class that is added to each AST node that is stored inside a scope
+ * Abstract class that is added to each AST node that is stored inside a scope添加到存储在作用域中的每个AST节点的抽象类
  * (including scopes).
  */
 class Scopable
@@ -195,7 +196,7 @@ class Scopable
 public:
 	virtual ~Scopable() = default;
 	/// @returns the scope this declaration resides in. Can be nullptr if it is the global scope.
-	/// Available only after name and type resolution step.
+	/// Available only after name and type resolution step.仅在名称和类型解析步骤之后可用。
 	ASTNode const* scope() const { return annotation().scope; }
 
 	/// @returns the source unit this scopable is present in.
@@ -212,7 +213,7 @@ public:
 };
 
 /**
- * Abstract AST class for a declaration (contract, function, struct, variable, import directive).
+ * Abstract AST class for a declaration (contract, function, struct, variable, import directive).抽象AST类，用于声明(契约、函数、结构、变量、import指令)
  */
 class Declaration: public ASTNode, public Scopable
 {
@@ -270,9 +271,9 @@ public:
 	bool isEventOrErrorParameter() const;
 
 	/// @returns false if the declaration can never be referenced without being qualified with a scope.
-	/// Usually the name alone can be used to refer to the corresponding entity.
-	/// But, for example, struct member names or enum member names always require a prefix.
-	/// Another example is event parameter names, which do not participate in any proper scope.
+	/// Usually the name alone can be used to refer to the corresponding entity.///通常只使用名称来指代对应的实体。
+	/// But, for example, struct member names or enum member names always require a prefix.///但是，例如，struct成员名或enum成员名总是需要前缀。
+	/// Another example is event parameter names, which do not participate in any proper scope.///另一个例子是事件参数名，它不参与任何适当的范围。
 	bool isVisibleAsUnqualifiedName() const;
 
 	/// @returns the type of expressions referencing this declaration.

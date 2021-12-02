@@ -66,8 +66,8 @@ struct ASTAnnotation
 
 struct DocTag
 {
-	std::string content;	///< The text content of the tag.
-	std::string paramName;	///< Only used for @param, stores the parameter name.
+	std::string content;	///< The text content of the tag.标记的文本内容。
+	std::string paramName;	///< Only used for @param, stores the parameter name.只用于@param，存储参数名称。
 };
 
 struct StructurallyDocumentedAnnotation
@@ -112,10 +112,10 @@ struct ScopableAnnotation
 
 	virtual ~ScopableAnnotation() = default;
 
-	/// The scope this declaration resides in. Can be nullptr if it is the global scope.
+	/// The scope this declaration resides in. Can be nullptr if it is the global scope.此声明所在的范围。如果是全局作用域，则可以为nullptr。
 	/// Filled by the Scoper.
 	ASTNode const* scope = nullptr;
-	/// Pointer to the contract this declaration resides in. Can be nullptr if the current scope
+	/// Pointer to the contract this declaration resides in. Can be nullptr if the current scope///指向声明所在的契约的指针。如果当前作用域可以为nullptr
 	/// is not part of a contract. Filled by the Scoper.
 	ContractDefinition const* contract = nullptr;
 };
@@ -126,7 +126,7 @@ struct DeclarationAnnotation: ASTAnnotation, ScopableAnnotation
 
 struct ImportAnnotation: DeclarationAnnotation
 {
-	/// The absolute path of the source unit to import.
+	/// The absolute path of the source unit to import.///源单元导入的绝对路径。
 	SetOnce<std::string> absolutePath;
 	/// The actual source unit.
 	SourceUnit const* sourceUnit = nullptr;
@@ -134,14 +134,14 @@ struct ImportAnnotation: DeclarationAnnotation
 
 struct TypeDeclarationAnnotation: DeclarationAnnotation
 {
-	/// The name of this type, prefixed by proper namespaces if globally accessible.
-	SetOnce<std::string> canonicalName;
+	/// The name of this type, prefixed by proper namespaces if globally accessible.///该类型的名称，如果全局可访问，则以适当的名称空间作为前缀。
+	SetOnce<std::string> canonicalName;//规范的名称
 };
 
 struct StructDeclarationAnnotation: TypeDeclarationAnnotation
 {
-	/// Whether the struct is recursive, i.e. if the struct (recursively) contains a member that involves a struct of the same
-	/// type, either in a dynamic array, as member of another struct or inside a mapping.
+	/// Whether the struct is recursive, i.e. if the struct (recursively) contains a member that involves a struct of the same///该struct是否递归，即该struct(递归)是否包含包含相同struct的成员
+	/// type, either in a dynamic array, as member of another struct or inside a mapping.///类型，在动态数组中，作为另一个结构体的成员或在映射中。
 	/// Only cases in which the recursive occurrence is within a dynamic array or a mapping are valid, while direct
 	/// recursion immediately raises an error.
 	/// Will be filled in by the DeclarationTypeChecker.
@@ -153,27 +153,27 @@ struct StructDeclarationAnnotation: TypeDeclarationAnnotation
 
 struct ContractDefinitionAnnotation: TypeDeclarationAnnotation, StructurallyDocumentedAnnotation
 {
-	/// List of functions and modifiers without a body. Can also contain functions from base classes.
+	/// List of functions and modifiers without a body. Can also contain functions from base classes.///没有主体的函数和修饰符列表。也可以包含来自基类的函数。
 	std::optional<std::vector<Declaration const*>> unimplementedDeclarations;
-	/// List of all (direct and indirect) base contracts in order from derived to
+	/// List of all (direct and indirect) base contracts in order from derived to///所有(直接和间接)基础契约的列表，按照从派生到
 	/// base, including the contract itself.
 	std::vector<ContractDefinition const*> linearizedBaseContracts;
-	/// Mapping containing the nodes that define the arguments for base constructors.
+	/// Mapping containing the nodes that define the arguments for base constructors.///映射包含定义基构造函数参数的节点。
 	/// These can either be inheritance specifiers or modifier invocations.
 	std::map<FunctionDefinition const*, ASTNode const*> baseConstructorArguments;
-	/// A graph with edges representing calls between functions that may happen during contract construction.
+	/// A graph with edges representing calls between functions that may happen during contract construction.///一个带边的图，表示在构造契约时函数之间可能发生的调用。
 	SetOnce<std::shared_ptr<CallGraph const>> creationCallGraph;
-	/// A graph with edges representing calls between functions that may happen in a deployed contract.
+	/// A graph with edges representing calls between functions that may happen in a deployed contract.///一个带边的图，表示在一个已部署的契约中可能发生的函数之间的调用。
 	SetOnce<std::shared_ptr<CallGraph const>> deployedCallGraph;
 
-	/// List of contracts whose bytecode is referenced by this contract, e.g. through "new".
-	/// The Value represents the ast node that referenced the contract.
+	/// List of contracts whose bytecode is referenced by this contract, e.g. through "new".///该契约引用其字节码的契约列表，例如通过"new"。
+	/// The Value represents the ast node that referenced the contract./// Value表示引用该契约的ast节点。
 	std::map<ContractDefinition const*, ASTNode const*, ASTCompareByID<ContractDefinition>> contractDependencies;
 };
 
 struct CallableDeclarationAnnotation: DeclarationAnnotation
 {
-	/// The set of functions/modifiers/events this callable overrides.
+	/// The set of functions/modifiers/events this callable overrides.///这个可调用函数/修饰符/事件的集合。
 	std::set<CallableDeclaration const*> baseFunctions;
 };
 
@@ -196,9 +196,9 @@ struct ModifierDefinitionAnnotation: CallableDeclarationAnnotation, Structurally
 
 struct VariableDeclarationAnnotation: DeclarationAnnotation, StructurallyDocumentedAnnotation
 {
-	/// Type of variable (type of identifier referencing this variable).
+	/// Type of variable (type of identifier referencing this variable).///变量类型(引用该变量的标识符类型)。
 	Type const* type = nullptr;
-	/// The set of functions this (public state) variable overrides.
+	/// The set of functions this (public state) variable overrides.///这个(public state)变量覆盖的函数集。
 	std::set<CallableDeclaration const*> baseFunctions;
 };
 
@@ -211,14 +211,14 @@ struct InlineAssemblyAnnotation: StatementAnnotation
 	struct ExternalIdentifierInfo
 	{
 		Declaration const* declaration = nullptr;
-		/// Suffix used, one of "slot", "offset", "length", "address", "selector" or empty.
+		/// Suffix used, one of "slot", "offset", "length", "address", "selector" or empty.///使用后缀，"slot"， "offset"， "length"， "address"， "selector"或空。
 		std::string suffix;
 		size_t valueSize = size_t(-1);
 	};
 
-	/// Mapping containing resolved references to external identifiers and their value size
+	/// Mapping containing resolved references to external identifiers and their value size///映射包含到外部标识符的解析引用及其值大小
 	std::map<yul::Identifier const*, ExternalIdentifierInfo> externalReferences;
-	/// Information generated during analysis phase.
+	/// Information generated during analysis phase.///映射包含到外部标识符的解析引用及其值大小
 	std::shared_ptr<yul::AsmAnalysisInfo> analysisInfo;
 };
 
