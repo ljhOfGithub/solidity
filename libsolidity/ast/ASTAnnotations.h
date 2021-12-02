@@ -155,7 +155,7 @@ struct ContractDefinitionAnnotation: TypeDeclarationAnnotation, StructurallyDocu
 {
 	/// List of functions and modifiers without a body. Can also contain functions from base classes.///没有主体的函数和修饰符列表。也可以包含来自基类的函数。
 	std::optional<std::vector<Declaration const*>> unimplementedDeclarations;
-	/// List of all (direct and indirect) base contracts in order from derived to///所有(直接和间接)基础契约的列表，按照从派生到
+	/// List of all (direct and indirect) base contracts in order from derived to///所有(直接和间接)基础契约的列表，按派生到基础的顺序排列，包括契约本身
 	/// base, including the contract itself.
 	std::vector<ContractDefinition const*> linearizedBaseContracts;
 	/// Mapping containing the nodes that define the arguments for base constructors.///映射包含定义基构造函数参数的节点。
