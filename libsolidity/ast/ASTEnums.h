@@ -30,13 +30,13 @@
 namespace solidity::frontend
 {
 
-/// Possible lookups for function resolving
+/// Possible lookups for function resolving///函数解析的可能查找
 enum class VirtualLookup { Static, Virtual, Super };
 
-// How a function can mutate the EVM state.
+// How a function can mutate the EVM state.//函数如何改变EVM状态。
 enum class StateMutability { Pure, View, NonPayable, Payable };
 
-/// Visibility ordered from restricted to unrestricted.
+/// Visibility ordered from restricted to unrestricted.///能见度从限制到不限制。
 enum class Visibility { Default, Private, Internal, Public, External };
 
 enum class Arithmetic { Checked, Wrapping };
@@ -60,7 +60,7 @@ inline std::string stateMutabilityToString(StateMutability const& _stateMutabili
 
 class Type;
 
-/// Container for function call parameter types & names
+/// Container for function call parameter types & names///用于函数调用的容器参数类型和名称
 struct FuncCallArguments
 {
 	/// Types of arguments

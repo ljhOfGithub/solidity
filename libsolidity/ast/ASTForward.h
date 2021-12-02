@@ -123,6 +123,9 @@ struct ASTCompareByID
 // Used as pointers to AST nodes, to be replaced by more clever pointers, e.g. pointers which do
 // not do reference counting but point to a special memory area that is completely released
 // explicitly.
+//用作指向AST节点的指针，被更聪明的指针所取代，例如，指向AST节点的指针
+//不做引用计数，而是指向一个被完全释放的特殊内存区域
+//显式。
 template <class T>
 using ASTPointer = std::shared_ptr<T>;
 
