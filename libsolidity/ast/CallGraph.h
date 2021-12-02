@@ -59,16 +59,21 @@ struct CallGraph
 	/// Graph edges. Edges are directed and lead from the caller to the callee.
 	/// The map contains a key for every possible caller, even if does not actually perform
 	/// any calls.
+	///图边缘。边从调用方指向被调用方。
+	///映射包含每个可能的调用者的键，即使实际上没有执行
+	///任何电话。
 	std::map<Node, std::set<Node, CompareByID>, CompareByID> edges;
 
 	/// Contracts that need to be compiled before this one can be compiled.
 	/// The value is the ast node that created the dependency.
+	///需要在此之前编译的契约。
+	///该值是创建依赖的ast节点。
 	std::map<ContractDefinition const*, ASTNode const*, ASTCompareByID<ContractDefinition>> bytecodeDependency;
 
-	/// Events that may get emitted by functions present in the graph.
+	/// Events that may get emitted by functions present in the graph.///图形中函数可能触发的事件。
 	std::set<EventDefinition const*, ASTNode::CompareByID> emittedEvents;
 
-	/// Errors that are used by functions present in the graph.
+	/// Errors that are used by functions present in the graph.///图中函数使用的错误。
 	std::set<ErrorDefinition const*, ASTNode::CompareByID> usedErrors;
 };
 
