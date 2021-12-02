@@ -242,38 +242,38 @@ struct ReturnAnnotation: StatementAnnotation
 
 struct TypeNameAnnotation: ASTAnnotation
 {
-	/// Type declared by this type name, i.e. type of a variable where this type name is used.
-	/// Set during reference resolution stage.
+	/// Type declared by this type name, i.e. type of a variable where this type name is used.///由该类型名声明的类型，即使用该类型名的变量的类型。
+	/// Set during reference resolution stage.在引用解析阶段设置
 	Type const* type = nullptr;
 };
 
 struct IdentifierPathAnnotation: ASTAnnotation
 {
-	/// Referenced declaration, set during reference resolution stage.
+	/// Referenced declaration, set during reference resolution stage.///引用声明，在引用解析阶段设置。
 	Declaration const* referencedDeclaration = nullptr;
-	/// What kind of lookup needs to be done (static, virtual, super) find the declaration.
+	/// What kind of lookup needs to be done (static, virtual, super) find the declaration.///需要做什么类型的查找(静态的，虚拟的，超的)的声明。
 	SetOnce<VirtualLookup> requiredLookup;
 };
 
 struct ExpressionAnnotation: ASTAnnotation
 {
-	/// Inferred type of the expression.
+	/// Inferred type of the expression.///表达式的推断类型。
 	Type const* type = nullptr;
-	/// Whether the expression is a constant variable
+	/// Whether the expression is a constant variable///表达式是否为常量变量
 	SetOnce<bool> isConstant;
-	/// Whether the expression is pure, i.e. compile-time constant.
+	/// Whether the expression is pure, i.e. compile-time constant.///是否为纯表达式，即编译时常量。
 	SetOnce<bool> isPure;
-	/// Whether it is an LValue (i.e. something that can be assigned to).
+	/// Whether it is an LValue (i.e. something that can be assigned to).///它是否是一个LValue(即可以被赋值的值)。
 	SetOnce<bool> isLValue;
-	/// Whether the expression is used in a context where the LValue is actually required.
+	/// Whether the expression is used in a context where the LValue is actually required.///是否在实际需要LValue的上下文中使用该表达式。
 	bool willBeWrittenTo = false;
-	/// Whether the expression is an lvalue that is only assigned.
+	/// Whether the expression is an lvalue that is only assigned.///该表达式是否为只赋值的左值。
 	/// Would be false for --, ++, delete, +=, -=, ....
 	/// Only relevant if isLvalue == true
 	bool lValueOfOrdinaryAssignment = false;
 
-	/// Types and - if given - names of arguments if the expr. is a function
-	/// that is called, used for overload resolution
+	/// Types and - if given - names of arguments if the expr. is a function///指定expr参数的类型和- if参数。是一个函数
+	/// that is called, used for overload resolution///用于重载解析
 	std::optional<FuncCallArguments> arguments;
 
 	/// True if the expression consists solely of the name of the function and the function is called immediately
@@ -288,19 +288,19 @@ struct ExpressionAnnotation: ASTAnnotation
 
 struct IdentifierAnnotation: ExpressionAnnotation
 {
-	/// Referenced declaration, set at latest during overload resolution stage.
+	/// Referenced declaration, set at latest during overload resolution stage.///引用声明，在重载解析阶段设置为最新。
 	Declaration const* referencedDeclaration = nullptr;
-	/// What kind of lookup needs to be done (static, virtual, super) find the declaration.
+	/// What kind of lookup needs to be done (static, virtual, super) find the declaration.///需要做什么类型的查找(静态的，虚拟的，超级的)找到声明。
 	SetOnce<VirtualLookup> requiredLookup;
-	/// List of possible declarations it could refer to (can contain duplicates).
+	/// List of possible declarations it could refer to (can contain duplicates).///可能引用的声明列表(可以包含重复的声明)
 	std::vector<Declaration const*> candidateDeclarations;
-	/// List of possible declarations it could refer to.
+	/// List of possible declarations it could refer to.//可能引用的声明列表。
 	std::vector<Declaration const*> overloadedDeclarations;
 };
 
 struct MemberAccessAnnotation: ExpressionAnnotation
 {
-	/// Referenced declaration, set at latest during overload resolution stage.
+	/// Referenced declaration, set at latest during overload resolution stage.///引用声明，在重载解析阶段设置为最新。
 	Declaration const* referencedDeclaration = nullptr;
 	/// What kind of lookup needs to be done (static, virtual, super) find the declaration.
 	SetOnce<VirtualLookup> requiredLookup;
