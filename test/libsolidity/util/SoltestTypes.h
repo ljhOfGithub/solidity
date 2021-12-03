@@ -193,6 +193,8 @@ struct FunctionCall;
  * of a call. In addition to that, it also stores the expected transaction status.
  * An optional comment can be assigned.
  */
+//表示函数调用执行后的预期结果。这可以是一个返回值，也可以是一个用逗号分隔的返回值列表。
+//它还包含检测到的输入格式，用于将值转换为与调用的实际结果进行比较所需的“字节”。除此之外，它还存储预期的事务状态。可以分配一个可选的注释。
 struct FunctionCallExpectations
 {
 	/// Representation of the comma-separated (or empty) list of expected result values

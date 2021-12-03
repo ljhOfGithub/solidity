@@ -198,7 +198,7 @@ struct VariableDeclarationAnnotation: DeclarationAnnotation, StructurallyDocumen
 {
 	/// Type of variable (type of identifier referencing this variable).///变量类型(引用该变量的标识符类型)。
 	Type const* type = nullptr;
-	/// The set of functions this (public state) variable overrides.///这个(public state)变量覆盖的函数集。
+	/// The set of functions this (public state) variable overrides.///这个(公共状态的)变量覆盖的函数集。
 	std::set<CallableDeclaration const*> baseFunctions;
 };
 
@@ -323,7 +323,7 @@ enum class FunctionCallKind
 struct FunctionCallAnnotation: ExpressionAnnotation
 {
 	util::SetOnce<FunctionCallKind> kind;
-	/// If true, this is the external call of a try statement.
+	/// If true, this is the external call of a try statement.///如果为true，这是一个try语句的外部调用。
 	bool tryCall = false;
 };
 
