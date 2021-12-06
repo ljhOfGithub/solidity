@@ -5,6 +5,7 @@ set -e
 # Bash script to test the ast-import option of the compiler by
 # first exporting a .sol file to JSON, then loading it into the compiler
 # and exporting it again. The second JSON should be identical to the first
+#Bash脚本测试编译器的ast-import选项，首先导出a。将sol文件转换为JSON，然后将其加载到编译器中并再次导出。第二个JSON应该与第一个相同
 READLINK=readlink
 if [[ "$OSTYPE" == "darwin"* ]]; then
     READLINK=greadlink
@@ -36,6 +37,8 @@ fi
 # Expected parameters:
 # $1 name of the file to be exported and imported
 # $2 any files needed to do so that might be in parent directories
+#函数测试再次导出和导入是否保留JSON ast不变，通过添加到“失败”或“不可编译”中记录结果。
+#此外，如果不匹配，将打印一个差异和相应的ast预期参数:$1要导出和导入的文件的名称$2需要这样做的任何文件，可能在父目录中
 function testImportExportEquivalence {
     local nth_input_file="$1"
     IFS=" " read -r -a all_input_files <<< "$2"
