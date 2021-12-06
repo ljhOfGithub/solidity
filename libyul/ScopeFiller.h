@@ -42,13 +42,14 @@ struct AsmAnalysisInfo;
 /**
  * Fills scopes with identifiers and checks for name clashes.
  * Does not resolve references.
+ * 使用标识符填充作用域并检查名称冲突。不解析引用。
  */
 class ScopeFiller
 {
 public:
 	ScopeFiller(AsmAnalysisInfo& _info, langutil::ErrorReporter& _errorReporter);
 
-	bool operator()(Literal const&) { return true; }
+	bool operator()(Literal const&) { return true; }//对()的对象转换运算符重载
 	bool operator()(Identifier const&) { return true; }
 	bool operator()(ExpressionStatement const& _expr);
 	bool operator()(Assignment const&) { return true; }

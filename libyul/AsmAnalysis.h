@@ -98,15 +98,15 @@ public:
 
 private:
 	/// Visits the expression, expects that it evaluates to exactly one value and
-	/// returns the type. Reports errors on errors and returns the default type.
+	/// returns the type. Reports errors on errors and returns the default type.访问表达式，期望它恰好计算出一个值并/返回类型。报告关于错误的错误，并返回默认类型。
 	YulString expectExpression(Expression const& _expr);
 	YulString expectUnlimitedStringLiteral(Literal const& _literal);
-	/// Vists the expression and expects it to return a single boolean value.
+	/// Vists the expression and expects it to return a single boolean value.访问该表达式并期望它返回一个布尔值。
 	/// Reports an error otherwise.
 	void expectBoolExpression(Expression const& _expr);
 
 	/// Verifies that a variable to be assigned to exists, can be assigned to
-	/// and has the same type as the value.
+	/// and has the same type as the value.///验证要赋值的变量是否存在，是否可以赋值并具有与该值相同的类型。
 	void checkAssignment(Identifier const& _variable, YulString _valueType);
 
 	Scope& scope(Block const* _block);
@@ -122,12 +122,13 @@ private:
 	Scope* m_currentScope = nullptr;
 	/// Variables that are active at the current point in assembly (as opposed to
 	/// "part of the scope but not yet declared")
+	//在程序集中当前点处于活动状态的变量(与“范围的一部分但尚未声明”相反)
 	std::set<Scope::Variable const*> m_activeVariables;
 	AsmAnalysisInfo& m_info;
 	langutil::ErrorReporter& m_errorReporter;
 	langutil::EVMVersion m_evmVersion;
 	Dialect const& m_dialect;
-	/// Names of data objects to be referenced by builtin functions with literal arguments.
+	/// Names of data objects to be referenced by builtin functions with literal arguments.///内置函数引用的数据对象的名称。
 	std::set<YulString> m_dataNames;
 	ForLoop const* m_currentForLoop = nullptr;
 };

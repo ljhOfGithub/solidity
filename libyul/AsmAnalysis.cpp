@@ -487,11 +487,11 @@ void AsmAnalyzer::operator()(ForLoop const& _for)
 	(*this)(_for.pre);
 
 	// The block was closed already, but we re-open it again and stuff the
-	// condition, the body and the post part inside.
+	// condition, the body and the post part inside.块已经关闭了，但我们重新打开它，把条件，身体和后面的部分塞进去。
 	m_currentScope = &scope(&_for.pre);
 
 	expectBoolExpression(*_for.condition);
-	// backup outer for-loop & create new state
+	// backup outer for-loop & create new state//备份外部for循环并创建新的状态
 	auto outerForLoop = m_currentForLoop;
 	m_currentForLoop = &_for;
 
@@ -559,7 +559,7 @@ void AsmAnalyzer::checkAssignment(Identifier const& _variable, YulString _valueT
 	if (Scope::Identifier const* var = m_currentScope->lookup(_variable.name))
 	{
 		if (m_resolver)
-			// We found a local reference, make sure there is no external reference.
+			// We found a local reference, make sure there is no external reference.//我们找到一个局部引用，确保没有外部引用。
 			m_resolver(
 				_variable,
 				yul::IdentifierContext::NonExternal,
@@ -589,7 +589,7 @@ void AsmAnalyzer::checkAssignment(Identifier const& _variable, YulString _valueT
 	}
 
 	if (!found && watcher.ok())
-		// Only add message if the callback did not.
+		// Only add message if the callback did not.//只添加消息，如果回调没有。
 		m_errorReporter.declarationError(4634_error, nativeLocationOf(_variable), "Variable not found or variable not lvalue.");
 	if (variableType && *variableType != _valueType)
 		m_errorReporter.typeError(
@@ -615,7 +615,7 @@ Scope& AsmAnalyzer::scope(Block const* _block)
 
 void AsmAnalyzer::expectValidIdentifier(YulString _identifier, SourceLocation const& _location)
 {
-	// NOTE: the leading dot case is handled by the parser not allowing it.
+	// NOTE: the leading dot case is handled by the parser not allowing it.//注意:前面的点大小写是由不允许的解析器处理的。
 
 	if (boost::ends_with(_identifier.str(), "."))
 		m_errorReporter.syntaxError(
@@ -671,12 +671,12 @@ bool AsmAnalyzer::validateInstructions(std::string const& _instructionIdentifier
 bool AsmAnalyzer::validateInstructions(evmasm::Instruction _instr, SourceLocation const& _location)
 {
 	// We assume that returndatacopy, returndatasize and staticcall are either all available
-	// or all not available.
+	// or all not available.我们假设returndatacopy、returndatasize和staticcallall要么全部可用，要么全部不可用。
 	yulAssert(m_evmVersion.supportsReturndata() == m_evmVersion.hasStaticCall(), "");
-	// Similarly we assume bitwise shifting and create2 go together.
+	// Similarly we assume bitwise shifting and create2 go together.//同样地，我们假设bitwise shift和create2一起出现。
 	yulAssert(m_evmVersion.hasBitwiseShifting() == m_evmVersion.hasCreate2(), "");
 
-	// These instructions are disabled in the dialect.
+	// These instructions are disabled in the dialect.//这些说明在方言中是无效的。
 	yulAssert(
 		_instr != evmasm::Instruction::JUMP &&
 		_instr != evmasm::Instruction::JUMPI &&
