@@ -52,6 +52,8 @@ struct AsmAnalysisInfo;
  * Performs the full analysis stage, calls the ScopeFiller internally, then resolves
  * references and performs other checks.
  * If all these checks pass, code generation should not throw errors.
+ *执行完整的分析阶段，在内部调用ScopeFiller，然后解析引用并执行其他检查。
+如果所有这些检查都通过了，代码生成应该不会抛出错误。
  */
 class AsmAnalyzer
 {
@@ -76,7 +78,7 @@ public:
 	bool analyze(Block const& _block);
 
 	/// Performs analysis on the outermost code of the given object and returns the analysis info.
-	/// Asserts on failure.
+	/// Asserts on failure.///对给定对象的最外层代码进行分析并返回分析信息。
 	static AsmAnalysisInfo analyzeStrictAssertCorrect(Dialect const& _dialect, Object const& _object);
 
 	std::vector<YulString> operator()(Literal const& _literal);

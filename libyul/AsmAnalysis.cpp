@@ -54,7 +54,7 @@ inline string to_string(LiteralKind _kind)
 {
 	switch (_kind)
 	{
-	case LiteralKind::Number: return "number";
+	case LiteralKind::Number: return "number";//将LiteralKind对象转换为字符串
 	case LiteralKind::Boolean: return "boolean";
 	case LiteralKind::String: return "string";
 	default: yulAssert(false, "");
@@ -74,7 +74,7 @@ bool AsmAnalyzer::analyze(Block const& _block)
 	}
 	catch (FatalError const&)
 	{
-		// This FatalError con occur if the errorReporter has too many errors.
+		// This FatalError con occur if the errorReporter has too many errors.//如果errorReporter有太多的错误，就会出现FatalError con。
 		yulAssert(!watcher.ok(), "Fatal error detected, but no error is reported.");
 	}
 	return watcher.ok();
@@ -149,7 +149,7 @@ vector<YulString> AsmAnalyzer::operator()(Identifier const& _identifier)
 	}))
 	{
 		if (m_resolver)
-			// We found a local reference, make sure there is no external reference.
+			// We found a local reference, make sure there is no external reference.//我们找到一个局部引用，确保没有外部引用。
 			m_resolver(
 				_identifier,
 				yul::IdentifierContext::NonExternal,
@@ -164,7 +164,7 @@ vector<YulString> AsmAnalyzer::operator()(Identifier const& _identifier)
 			m_currentScope->insideFunction()
 		);
 		if (!found && watcher.ok())
-			// Only add an error message if the callback did not do it.
+			// Only add an error message if the callback did not do it.//只有在回调函数没有这样做的时候才添加一个错误消息。
 			m_errorReporter.declarationError(
 				8198_error,
 				nativeLocationOf(_identifier),
@@ -234,7 +234,7 @@ void AsmAnalyzer::operator()(VariableDeclaration const& _varDecl)
 	size_t const numVariables = _varDecl.variables.size();
 	if (m_resolver)
 		for (auto const& variable: _varDecl.variables)
-			// Call the resolver for variable declarations to allow it to raise errors on shadowing.
+			// Call the resolver for variable declarations to allow it to raise errors on shadowing.//调用变量声明的解析器，允许它在隐藏时引发错误。
 			m_resolver(
 				yul::Identifier{variable.debugData, variable.name},
 				yul::IdentifierContext::VariableDeclaration,
