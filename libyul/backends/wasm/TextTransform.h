@@ -25,7 +25,7 @@
 
 #include <vector>
 
-namespace solidity::yul
+namespace solidity::yul//名字空间名称相同，成员名字不同（其中成员名字指的是命名空间中的类，函数以及变量），那么他们会自动合并为一个名字空间，可以理解为追加 
 {
 struct AsmAnalysisInfo;
 }

@@ -47,7 +47,7 @@ ScopeFiller::ScopeFiller(AsmAnalysisInfo& _info, ErrorReporter& _errorReporter):
 
 bool ScopeFiller::operator()(ExpressionStatement const& _expr)
 {
-	return std::visit(*this, _expr.expression);
+	return std::visit(*this, _expr.expression);//std::visit 方法允许你对一个 std::variants 列表应用访问者模式,而相应的访问者必须是一个callable类型,所谓 callable 类型,是一种可以被调用的类型,通常是一个函数,一个函数对象或者一个 lambda 函数
 }
 
 bool ScopeFiller::operator()(VariableDeclaration const& _varDecl)
@@ -121,7 +121,7 @@ bool ScopeFiller::operator()(Block const& _block)
 	m_currentScope = &scope(&_block);
 
 	// First visit all functions to make them create
-	// an entry in the scope according to their visibility.
+	// an entry in the scope according to their visibility.首先访问所有函数，让它们根据可见性在作用域中创建一个条目。
 	for (auto const& s: _block.statements)
 		if (holds_alternative<FunctionDefinition>(s))
 			if (!registerFunction(std::get<FunctionDefinition>(s)))

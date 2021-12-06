@@ -56,12 +56,14 @@ struct StackTooDeepError: virtual YulException
 };
 
 /// Assertion that throws an YulAssertion containing the given description if it is not met.
+///如果不满足，抛出包含给定描述的YulAssertion的断言。
 #if !BOOST_PP_VARIADICS_MSVC
 #define yulAssert(...) BOOST_PP_OVERLOAD(yulAssert_,__VA_ARGS__)(__VA_ARGS__)
 #else
 #define yulAssert(...) BOOST_PP_CAT(BOOST_PP_OVERLOAD(yulAssert_,__VA_ARGS__)(__VA_ARGS__),BOOST_PP_EMPTY())
 #endif
-
+//可变参数宏BOOST_PP_OVERLOAD https://blog.csdn.net/weixin_30267697/article/details/98058493
+//BOOST_PP_CAT宏主要用来连接两个标识符。此宏被其它地方用到。https://blog.csdn.net/freemannnn/article/details/24524919
 #define yulAssert_1(CONDITION) \
 	yulAssert_2(CONDITION, "")
 
