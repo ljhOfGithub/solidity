@@ -172,6 +172,7 @@ string const& CompilerOutputs::componentName(bool CompilerOutputs::* _component)
 	solAssert(_component, "");
 
 	// NOTE: Linear search is not optimal but it's simpler than getting pointers-to-members to work as map keys.
+	// 注意:线性搜索不是最优的，但它比获得指向成员的指针作为映射键更简单。
 	for (auto const& [componentName, component]: CompilerOutputs::componentMap())
 		if (component == _component)
 			return componentName;
@@ -332,6 +333,7 @@ bool CommandLineParser::parseInputPathsAndRemappings()
 		else if (m_options.input.paths.size() == 0)
 			// Standard JSON mode input used to be handled separately and zero files meant "read from stdin".
 			// Keep it working that way for backwards-compatibility.
+			//标准JSON模式输入过去是分开处理的，零文件意味着“从stdin中读取”。保持它以这种方式工作，以实现向后兼容性。
 			m_options.input.addStdin = true;
 	}
 	else if (m_options.input.paths.size() == 0 && !m_options.input.addStdin)
