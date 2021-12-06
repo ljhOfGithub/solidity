@@ -44,6 +44,7 @@ namespace
 
 // The strings in this list must not be resized after they have been added here (via solidity_alloc()), because
 // this may potentially change the pointer that was passed to the caller from solidity_alloc().
+// 这个列表中的字符串在添加到这里之后(通过solidity_alloc())不能重新调整大小，因为这可能会改变从solidity_alloc()传递给调用者的指针。
 static list<string> solidityAllocations;
 
 /// Find the equivalent to @p _data in the list of allocations of solidity_alloc(),
@@ -51,6 +52,7 @@ static list<string> solidityAllocations;
 ///
 /// If any invalid argument is being passed, it is considered a programming error
 /// on the caller-side and hence, will call abort() then.
+// 在solidity_alloc()的分配列表中找到与@p _data等价的值，将其从列表中移除并返回其值。如果传递了任何无效参数，调用方会认为是编程错误，因此会调用abort()。
 string takeOverAllocation(char const* _data)
 {
 	for (auto iter = begin(solidityAllocations); iter != end(solidityAllocations); ++iter)
@@ -65,6 +67,7 @@ string takeOverAllocation(char const* _data)
 }
 
 /// Resizes a std::string to the proper length based on the occurrence of a zero terminator.
+///根据零终止符的出现将std::string调整为适当的长度。
 void truncateCString(string& _data)
 {
 	size_t pos = _data.find('\0');
@@ -153,7 +156,7 @@ extern void solidity_free(char* _data) noexcept
 extern void solidity_reset() noexcept
 {
 	// This is called right before each compilation, but not at the end, so additional memory
-	// can be freed here.
+	// can be freed here.这在每次编译之前调用，但在最后不调用，因此可以在这里释放额外的内存。
 	yul::YulStringRepository::reset();
 	solidityAllocations.clear();
 }
