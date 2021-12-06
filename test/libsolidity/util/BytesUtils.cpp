@@ -291,6 +291,7 @@ string BytesUtils::formatBytes(
 		// be signed. If an unsigned was detected in the expectations,
 		// but the actual result returned a signed, it would be formatted
 		// incorrectly.
+		//检查检测到的类型是否错误，以及是否可以对其进行签名。如果在预期中检测到unsigned，但实际结果返回signed，那么它将被错误地格式化。
 		if (*_bytes.begin() & 0x80)
 			os << formatSigned(_bytes);
 		else

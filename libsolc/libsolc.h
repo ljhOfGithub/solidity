@@ -36,9 +36,9 @@
 extern "C" {
 #endif
 
-/// Callback used to retrieve additional source files or data.
+/// Callback used to retrieve additional source files or data.///用于检索其他源文件或数据的回调。
 ///
-/// @param _context The readContext passed to solidity_compile. Can be NULL.
+/// @param _context The readContext passed to solidity_compile. Can be NULL.传递给solidity_compile的readContext。可以为空。
 /// @param _kind The kind of callback (a string).
 /// @param _data The data for the callback (a string).
 /// @param o_contents A pointer to the contents of the file, if found. Allocated via solidity_alloc().
@@ -48,6 +48,7 @@ extern "C" {
 /// implementor must use the solidity_alloc() API to allocate its underlying
 /// storage. Ownership is then transferred to the compiler which will take care
 /// of the deallocation.
+/// /要由回调实现分配的文件(以及错误)内容必须使用solidity_alloc() API来分配其底层/存储。然后所有权被转移到编译器，编译器将负责回收。
 ///
 /// If the callback is not supported, *o_contents and *o_error must be set to NULL.
 typedef void (*CStyleReadFileCallback)(void* _context, char const* _kind, char const* _data, char** o_contents, char** o_error);

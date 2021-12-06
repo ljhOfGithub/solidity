@@ -52,7 +52,7 @@ public:
 
 	AssemblyItem newTag() { assertThrow(m_usedTags < 0xffffffff, AssemblyException, ""); return AssemblyItem(Tag, m_usedTags++); }
 	AssemblyItem newPushTag() { assertThrow(m_usedTags < 0xffffffff, AssemblyException, ""); return AssemblyItem(PushTag, m_usedTags++); }
-	/// Returns a tag identified by the given name. Creates it if it does not yet exist.
+	/// Returns a tag identified by the given name. Creates it if it does not yet exist.///返回一个由给定名称标识的标签。如果它还不存在，就创建它。
 	AssemblyItem namedTag(std::string const& _name, size_t _params, size_t _returns, std::optional<uint64_t> _sourceID);
 	AssemblyItem newData(bytes const& _data) { util::h256 h(util::keccak256(util::asString(_data))); m_data[h] = _data; return AssemblyItem(PushData, h); }
 	bytes const& data(util::h256 const& _i) const { return m_data.at(_i); }
@@ -71,7 +71,7 @@ public:
 	template <class T> Assembly& operator<<(T const& _d) { append(_d); return *this; }
 
 	/// Pushes the final size of the current assembly itself. Use this when the code is modified
-	/// after compilation and CODESIZE is not an option.
+	/// after compilation and CODESIZE is not an option.push当前组件本身的最终大小。当代码在编译后被修改且CODESIZE不是选项时，使用此选项。
 	void appendProgramSize() { append(AssemblyItem(PushProgramSize)); }
 	void appendLibraryAddress(std::string const& _identifier) { append(newPushLibraryAddress(_identifier)); }
 	void appendImmutable(std::string const& _identifier) { append(newPushImmutable(_identifier)); }
@@ -87,7 +87,7 @@ public:
 	AssemblyItem appendJump(AssemblyItem const& _tag) { auto ret = append(_tag.pushTag()); append(Instruction::JUMP); return ret; }
 	AssemblyItem appendJumpI(AssemblyItem const& _tag) { auto ret = append(_tag.pushTag()); append(Instruction::JUMPI); return ret; }
 
-	/// Adds a subroutine to the code (in the data section) and pushes its size (via a tag)
+	/// Adds a subroutine to the code (in the data section) and pushes its size (via a tag)///添加一个子例程到代码(在数据部分)，并推送其大小(通过标签)
 	/// on the stack. @returns the pushsub assembly item.
 	AssemblyItem appendSubroutine(AssemblyPointer const& _assembly) { auto sub = newSub(_assembly); append(newPushSubSize(size_t(sub.data()))); return sub; }
 	void pushSubroutineSize(size_t _subRoutine) { append(newPushSubSize(_subRoutine)); }
@@ -108,11 +108,12 @@ public:
 	void setDeposit(int _deposit) { m_deposit = _deposit; assertThrow(m_deposit >= 0, InvalidDeposit, ""); }
 	std::string const& name() const { return m_name; }
 
-	/// Changes the source location used for each appended item.
+	/// Changes the source location used for each appended item.///更改每个附加项的源位置。
 	void setSourceLocation(langutil::SourceLocation const& _location) { m_currentSourceLocation = _location; }
 	langutil::SourceLocation const& currentSourceLocation() const { return m_currentSourceLocation; }
 
 	/// Assembles the assembly into bytecode. The assembly should not be modified after this call, since the assembled version is cached.
+	/////将程序集汇编为字节码。在此调用之后不应修改程序集，因为已缓存了已装配的版本。
 	LinkerObject const& assemble() const;
 
 	struct OptimiserSettings
@@ -141,7 +142,7 @@ public:
 	/// If @a _enable is not set, will perform some simple peephole optimizations.
 	Assembly& optimise(bool _enable, langutil::EVMVersion _evmVersion, bool _isCreation, size_t _runs);
 
-	/// Create a text representation of the assembly.
+	/// Create a text representation of the assembly.///创建汇编的文本表示形式。
 	std::string assemblyString(
 		langutil::DebugInfoSelection const& _debugInfoSelection = langutil::DebugInfoSelection::Default(),
 		StringMap const& _sourceCodes = StringMap()
