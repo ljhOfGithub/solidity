@@ -74,7 +74,7 @@ bool AsmAnalyzer::analyze(Block const& _block)
 	}
 	catch (FatalError const&)
 	{
-		// This FatalError con occur if the errorReporter has too many errors.
+		// This FatalError can occur if the errorReporter has too many errors.
 		yulAssert(!watcher.ok(), "Fatal error detected, but no error is reported.");
 	}
 	return watcher.ok();
