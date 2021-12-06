@@ -93,6 +93,7 @@ void Parser::updateLocationEndFrom(
 		}
 		case UseSourceLocationFrom::LocationOverride:
 			// Ignore the update. The location we're overriding with is not supposed to change
+			// 忽略更新。我们重写的位置不应该改变
 			break;
 		case UseSourceLocationFrom::Comments:
 		{

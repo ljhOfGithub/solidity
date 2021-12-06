@@ -33,7 +33,7 @@ namespace solidity::yul
 {
 
 /**
- * Component that imports an AST from json format to the internal format
+ * Component that imports an AST from json format to the internal format从json格式导入AST到内部格式的组件
  */
 class AsmJsonImporter
 {
@@ -48,7 +48,7 @@ private:
 	template <class T>
 	T createAsmNode(Json::Value const& _node);
 	/// helper function to access member functions of the JSON
-	/// and throw an error if it does not exist
+	/// and throw an error if it does not exist帮助函数访问JSON的成员函数，如果不存在则抛出错误
 	Json::Value member(Json::Value const& _node, std::string const& _name);
 
 	yul::Statement createStatement(Json::Value const& _node);
