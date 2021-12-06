@@ -58,6 +58,7 @@ T AsmJsonImporter::createAsmNode(Json::Value const& _node)
 	// TODO: We should add originLocation to the AST.
 	// While it's not included, we'll use nativeLocation for it because we only support importing
 	// inline assembly as a part of a Solidity AST and there these locations are always the same.
+	//虽然没有包含它，但我们将为它使用nativeLocation，因为我们只支持将内联组装作为Solidity AST的一部分导入，而且这些位置总是相同的。
 	r.debugData = DebugData::create(nativeLocation, nativeLocation);
 	return r;
 }

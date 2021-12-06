@@ -54,7 +54,7 @@ inline string to_string(LiteralKind _kind)
 {
 	switch (_kind)
 	{
-	case LiteralKind::Number: return "number";//将LiteralKind对象转换为字符串
+	case LiteralKind::Number: return "number";
 	case LiteralKind::Boolean: return "boolean";
 	case LiteralKind::String: return "string";
 	default: yulAssert(false, "");
@@ -149,7 +149,7 @@ vector<YulString> AsmAnalyzer::operator()(Identifier const& _identifier)
 	}))
 	{
 		if (m_resolver)
-			// We found a local reference, make sure there is no external reference.//我们找到一个局部引用，确保没有外部引用。
+			// We found a local reference, make sure there is no external reference.
 			m_resolver(
 				_identifier,
 				yul::IdentifierContext::NonExternal,
@@ -164,7 +164,7 @@ vector<YulString> AsmAnalyzer::operator()(Identifier const& _identifier)
 			m_currentScope->insideFunction()
 		);
 		if (!found && watcher.ok())
-			// Only add an error message if the callback did not do it.//只有在回调函数没有这样做的时候才添加一个错误消息。
+			// Only add an error message if the callback did not do it.
 			m_errorReporter.declarationError(
 				8198_error,
 				nativeLocationOf(_identifier),
@@ -234,7 +234,7 @@ void AsmAnalyzer::operator()(VariableDeclaration const& _varDecl)
 	size_t const numVariables = _varDecl.variables.size();
 	if (m_resolver)
 		for (auto const& variable: _varDecl.variables)
-			// Call the resolver for variable declarations to allow it to raise errors on shadowing.//调用变量声明的解析器，允许它在隐藏时引发错误。
+			// Call the resolver for variable declarations to allow it to raise errors on shadowing.
 			m_resolver(
 				yul::Identifier{variable.debugData, variable.name},
 				yul::IdentifierContext::VariableDeclaration,
@@ -487,11 +487,11 @@ void AsmAnalyzer::operator()(ForLoop const& _for)
 	(*this)(_for.pre);
 
 	// The block was closed already, but we re-open it again and stuff the
-	// condition, the body and the post part inside.块已经关闭了，但我们重新打开它，把条件，身体和后面的部分塞进去。
+	// condition, the body and the post part inside.
 	m_currentScope = &scope(&_for.pre);
 
 	expectBoolExpression(*_for.condition);
-	// backup outer for-loop & create new state//备份外部for循环并创建新的状态
+	// backup outer for-loop & create new state
 	auto outerForLoop = m_currentForLoop;
 	m_currentForLoop = &_for;
 
@@ -559,7 +559,7 @@ void AsmAnalyzer::checkAssignment(Identifier const& _variable, YulString _valueT
 	if (Scope::Identifier const* var = m_currentScope->lookup(_variable.name))
 	{
 		if (m_resolver)
-			// We found a local reference, make sure there is no external reference.//我们找到一个局部引用，确保没有外部引用。
+			// We found a local reference, make sure there is no external reference.
 			m_resolver(
 				_variable,
 				yul::IdentifierContext::NonExternal,
@@ -589,7 +589,7 @@ void AsmAnalyzer::checkAssignment(Identifier const& _variable, YulString _valueT
 	}
 
 	if (!found && watcher.ok())
-		// Only add message if the callback did not.//只添加消息，如果回调没有。
+		// Only add message if the callback did not.
 		m_errorReporter.declarationError(4634_error, nativeLocationOf(_variable), "Variable not found or variable not lvalue.");
 	if (variableType && *variableType != _valueType)
 		m_errorReporter.typeError(
@@ -615,7 +615,7 @@ Scope& AsmAnalyzer::scope(Block const* _block)
 
 void AsmAnalyzer::expectValidIdentifier(YulString _identifier, SourceLocation const& _location)
 {
-	// NOTE: the leading dot case is handled by the parser not allowing it.//注意:前面的点大小写是由不允许的解析器处理的。
+	// NOTE: the leading dot case is handled by the parser not allowing it.
 
 	if (boost::ends_with(_identifier.str(), "."))
 		m_errorReporter.syntaxError(
@@ -671,12 +671,12 @@ bool AsmAnalyzer::validateInstructions(std::string const& _instructionIdentifier
 bool AsmAnalyzer::validateInstructions(evmasm::Instruction _instr, SourceLocation const& _location)
 {
 	// We assume that returndatacopy, returndatasize and staticcall are either all available
-	// or all not available.我们假设returndatacopy、returndatasize和staticcallall要么全部可用，要么全部不可用。
+	// or all not available.
 	yulAssert(m_evmVersion.supportsReturndata() == m_evmVersion.hasStaticCall(), "");
-	// Similarly we assume bitwise shifting and create2 go together.//同样地，我们假设bitwise shift和create2一起出现。
+	// Similarly we assume bitwise shifting and create2 go together.
 	yulAssert(m_evmVersion.hasBitwiseShifting() == m_evmVersion.hasCreate2(), "");
 
-	// These instructions are disabled in the dialect.//这些说明在方言中是无效的。
+	// These instructions are disabled in the dialect.
 	yulAssert(
 		_instr != evmasm::Instruction::JUMP &&
 		_instr != evmasm::Instruction::JUMPI &&
