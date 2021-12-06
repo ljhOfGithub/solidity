@@ -36,6 +36,9 @@ namespace solidity::yul
 /// Owns the string data for all YulStrings, which can be referenced by a Handle.
 /// A Handle consists of an ID (that depends on the insertion order of YulStrings and is potentially
 /// non-deterministic) and a deterministic string hash.
+//YulStrings库。
+//拥有所有yulstring的字符串数据，它可以被一个Handle引用。
+//句柄由ID(取决于YulStrings的插入顺序，可能是非确定性的)和确定性的字符串散列组成。
 class YulStringRepository
 {
 public:
@@ -85,6 +88,7 @@ public:
 	/// Use with care - there cannot be any dangling YulString references.
 	/// If references need to be cleared manually, register the callback via
 	/// resetCallback.
+	//明确的存储库。使用时要小心——不能有任何悬空的YulString引用。如果引用需要手动清除，通过resetCallback注册回调。
 	static void reset()
 	{
 		for (auto const& cb: resetCallbacks())
@@ -138,6 +142,7 @@ public:
 	/// identical IDs and identical strings do not compare as "less").
 	/// If the hashes are identical and the strings are distinct, it
 	/// falls back to string comparison.
+	//这与字符串<-操作符不一致!首先比较字符串哈希值。如果它们相等，它检查相同的id(只有相同的字符串有相同的id，相同的字符串不比较为“less”)。如果哈希值相同而字符串不同，则返回到字符串比较。
 	bool operator<(YulString const& _other) const
 	{
 		if (m_handle.hash < _other.m_handle.hash) return true;
@@ -145,7 +150,7 @@ public:
 		if (m_handle.id == _other.m_handle.id) return false;
 		return str() < _other.str();
 	}
-	/// Equality is determined based on the string ID.
+	/// Equality is determined based on the string ID.///相等取决于字符串ID。
 	bool operator==(YulString const& _other) const { return m_handle.id == _other.m_handle.id; }
 	bool operator!=(YulString const& _other) const { return m_handle.id != _other.m_handle.id; }
 
@@ -159,6 +164,7 @@ public:
 
 private:
 	/// Handle of the string. Assumes that the empty string has ID zero.
+	///字符串的句柄。假设空字符串的ID为0。
 	YulStringRepository::Handle m_handle{ 0, YulStringRepository::emptyHash() };
 };
 

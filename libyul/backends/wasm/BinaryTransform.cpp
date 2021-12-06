@@ -108,6 +108,8 @@ bytes toBytes(Export _export)
 
 // NOTE: This is a subset of WebAssembly opcodes.
 //       Those available as a builtin are listed further down.
+//这是WebAssembly操作码的一个子集。
+//下面列出了那些可用的内置函数。
 enum class Opcode: uint8_t
 {
 	Block = 0x02,
@@ -247,7 +249,7 @@ bytes makeSection(Section _section, bytes _data)
 	return toBytes(_section) + prefixSize(move(_data));
 }
 
-/// This is a kind of run-length-encoding of local types.
+/// This is a kind of run-length-encoding of local types.///这是一种局部类型的运行长度编码。
 vector<pair<size_t, ValueType>> groupLocalVariables(vector<VariableDeclaration> _localVariables)
 {
 	vector<pair<size_t, ValueType>> localEntries;
@@ -308,6 +310,7 @@ bytes BinaryTransform::run(Module const& _module)
 		size_t const length = data.size();
 		ret += customSection(name, move(data));
 		// Skip all the previous sections and the size field of this current custom section.
+		//跳过所有前面的部分和当前自定义部分的大小字段。
 		size_t const offset = ret.size() - length;
 		subModulePosAndSize[name] = {offset, length};
 	}
@@ -343,6 +346,8 @@ bytes BinaryTransform::operator()(StringLiteral const&)
 {
 	// StringLiteral is a special AST element used for certain builtins.
 	// It is not mapped to actual WebAssembly, and should be processed in visit(BuiltinCall).
+	// StringLiteral是一个特殊的AST元素，用于某些内置元素。
+	//它没有映射到实际的WebAssembly，应该在visit(builtcall)中处理。
 	yulAssert(false, "");
 }
 
@@ -360,6 +365,7 @@ bytes BinaryTransform::operator()(BuiltinCall const& _call)
 {
 	// We need to avoid visiting the arguments of `dataoffset` and `datasize` because
 	// they are references to object names that should not end up in the code.
+	//我们需要避免访问' dataoffset '和' datasize '的参数，因为它们是对对象名称的引用，不应该在代码中结束。
 	if (_call.functionName == "dataoffset")
 	{
 		string name = get<StringLiteral>(_call.arguments.at(0)).value;
@@ -371,12 +377,14 @@ bytes BinaryTransform::operator()(BuiltinCall const& _call)
 	{
 		string name = get<StringLiteral>(_call.arguments.at(0)).value;
 		// TODO: support the case where name refers to the current object
+		// TODO:支持name引用当前对象的情况
 		yulAssert(m_subModulePosAndSize.count(name), "");
 		return toBytes(Opcode::I64Const) + lebEncodeSigned(static_cast<int64_t>(m_subModulePosAndSize.at(name).second));
 	}
 
 	yulAssert(builtins.count(_call.functionName), "Builtin " + _call.functionName + " not found");
 	// NOTE: the dialect ensures we have the right amount of arguments
+	//注意:dialect确保了我们有正确数量的论证
 	bytes args = visit(_call.arguments);
 	bytes ret = move(args) + toBytes(builtins.at(_call.functionName));
 	if (
@@ -387,6 +395,8 @@ bytes BinaryTransform::operator()(BuiltinCall const& _call)
 		// into account to generate more efficient code but if the hint is invalid it could
 		// actually be more expensive. It's best to hint at 1-byte alignment if we don't plan
 		// to control the memory layout accordingly.
+		//对齐提示和偏移。解释器忽略对齐。jit / aot可以考虑它来生成更有效的代码，但是如果提示无效，那么它实际上可能会更昂贵。
+		//如果我们不打算控制相应的内存布局，最好提示1字节对齐。
 		ret += bytes{{0, 0}}; // 2^0 == 1-byte alignment
 
 	return ret;
@@ -716,6 +726,7 @@ bytes BinaryTransform::encodeName(string const& _name)
 	// UTF-8 is allowed here by the Wasm spec, but since all names here should stem from
 	// Solidity or Yul identifiers or similar, non-ascii characters ending up here
 	// is a very bad sign.
+	//Wasm规范允许在这里使用UTF-8，但由于这里的所有名称都应该源于solid或Yul标识符或类似的，非ascii字符在这里结束是一个非常糟糕的迹象。
 	for (char c: _name)
 		yulAssert(uint8_t(c) <= 0x7f, "Non-ascii character found.");
 	return lebEncode(_name.size()) + asBytes(_name);
